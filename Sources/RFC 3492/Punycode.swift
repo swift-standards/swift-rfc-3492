@@ -119,7 +119,11 @@ extension Punycode {
                     }
 
                     output.append(digitToChar(q))
-                    bias = adapt(delta: delta, numPoints: UInt32(handledCount + 1), firstTime: handledCount == basicLength)
+                    bias = adapt(
+                        delta: delta,
+                        numPoints: UInt32(handledCount + 1),
+                        firstTime: handledCount == basicLength
+                    )
                     delta = 0
                     handledCount += 1
                 }
@@ -158,7 +162,8 @@ extension Punycode {
         }
 
         // Decode the non-basic part
-        let nonBasicStart = input.lastIndex(of: delimiter)?.utf16Offset(in: input).advanced(by: 1) ?? 0
+        let nonBasicStart =
+            input.lastIndex(of: delimiter)?.utf16Offset(in: input).advanced(by: 1) ?? 0
         let nonBasicPart = String(input.dropFirst(nonBasicStart))
 
         // If non-basic part is empty, return what we have
@@ -254,11 +259,11 @@ extension Punycode {
         }
 
         // 'a'-'z' or 'A'-'Z' => 0-25
-        if (ascii >= 0x41 && ascii <= 0x5A) {  // A-Z
+        if ascii >= 0x41 && ascii <= 0x5A {  // A-Z
             return UInt32(ascii - 0x41)
-        } else if (ascii >= 0x61 && ascii <= 0x7A) {  // a-z
+        } else if ascii >= 0x61 && ascii <= 0x7A {  // a-z
             return UInt32(ascii - 0x61)
-        } else if (ascii >= 0x30 && ascii <= 0x39) {  // 0-9
+        } else if ascii >= 0x30 && ascii <= 0x39 {  // 0-9
             return UInt32(ascii - 0x30) + 26
         } else {
             throw Error.badInput
