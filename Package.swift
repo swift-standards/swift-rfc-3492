@@ -2,14 +2,6 @@
 
 import PackageDescription
 
-extension String {
-    static let rfc3492: Self = "RFC 3492"
-}
-
-extension Target.Dependency {
-    static var rfc3492: Self { .target(name: .rfc3492) }
-}
-
 let package = Package(
     name: "swift-rfc-3492",
     platforms: [
@@ -33,16 +25,12 @@ let package = Package(
         .testTarget(
             name: "RFC 3492 Tests",
             dependencies: [
-                "RFC 3492"
+                .target(name: "RFC 3492")
             ]
         ),
     ],
     swiftLanguageModes: [.v6]
 )
-
-extension String {
-    var tests: Self { self + " Tests" }
-}
 
 for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
     let ecosystem: [SwiftSetting] = [
